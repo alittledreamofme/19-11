@@ -6,41 +6,28 @@
   <title>For the Kings of Our Class ✨ | 19.11</title>
   <link href="https://googleapis.com" rel="stylesheet">
   <style>
-    :root {
-      --bg-dark: #070d1f;
-      --bg-mid: #0f1d3d;
-      --accent-blue: #38bdf8;
-      --accent-gold: #fbbf24;
-      --text-main: #f8fafc;
-      --text-muted: #cbd5e1;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.12);
-    }
+    /* Bố cục giao diện, màu sắc, hiệu ứng sao rơi và trình phát nhạc được tối ưu hoàn chỉnh */
+    :root { --bg-dark: #070d1f; --bg-mid: #0f1d3d; --accent-blue: #38bdf8; --accent-gold: #fbbf24; --text-main: #f8fafc; --text-muted: #cbd5e1; --card-bg: rgba(255, 255, 255, 0.05); --card-border: rgba(255, 255, 255, 0.12); }
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at 20% 20%, #172554 0%, var(--bg-mid) 45%, var(--bg-dark) 100%);
-      color: var(--text-main);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: radial-gradient(circle at 20% 20%, #172554 0%, var(--bg-mid) 45%, var(--bg-dark) 100%); color: var(--text-main); overflow-x: hidden; line-height: 1.65; }
     canvas#fx { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
     .container { max-width: 960px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
     .topbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; font-size: 0.85rem; letter-spacing: 1.5px; color: var(--text-muted); }
     .pill { border: 1px solid var(--card-border); background: var(--card-bg); padding: 6px 14px; border-radius: 999px; backdrop-filter: blur(8px); }
-    .hero { min-height: 85vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 0; }
+    .hero { min-height: 88vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 0; }
     .subtitle-badge { font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.35); padding: 6px 18px; border-radius: 999px; margin-bottom: 24px; background: rgba(56, 189, 248, 0.08); }
     h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.15; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 20%, #7dd3fc 60%, #fde68a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-desc { max-width: 620px; color: var(--text-muted); font-size: 1.05rem; margin-bottom: 32px; }
-    .hero-icon { font-size: 2.6rem; margin-bottom: 28px; animation: float 3s ease-in-out infinite; }
+    .hero-desc { max-width: 640px; color: var(--text-muted); font-size: 1.05rem; margin-bottom: 28px; }
+    .hero-icon { font-size: 2.8rem; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .btn-group { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 40px; }
-    button { cursor: pointer; border: none; border-radius: 999px; padding: 12px 22px; font-family: inherit; font-weight: 600; font-size: 0.92rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-bottom: 36px; }
+    button, select { cursor: pointer; border: none; border-radius: 999px; padding: 12px 20px; font-family: inherit; font-weight: 600; font-size: 0.92rem; transition: transform 0.2s, box-shadow 0.2s; }
     button:hover { transform: translateY(-2px); }
     .btn-gold { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #1e1b18; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); }
     .btn-glass { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); backdrop-filter: blur(10px); }
+    select.music-select { background: #0f1d3d; color: var(--text-main); border: 1px solid var(--card-border); outline: none; }
     .scroll-hint { color: var(--text-muted); font-size: 0.88rem; text-decoration: none; opacity: 0.8; }
-    section { padding: 70px 0; }
+    section { padding: 65px 0; }
     .sec-tag { text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-gold); margin-bottom: 8px; }
     h2 { font-family: 'Playfair Display', serif; text-align: center; font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 12px; }
     .sec-sub { text-align: center; color: var(--text-muted); margin-bottom: 36px; }
@@ -53,21 +40,26 @@
     .wish-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
     .wish-card p { font-size: 0.94rem; color: var(--text-muted); }
     .random-box { text-align: center; background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(251,191,36,0.08)); border: 1px solid var(--card-border); border-radius: 24px; padding: 36px 24px; }
-    .random-result { font-size: 1.15rem; font-weight: 600; color: #fde68a; min-height: 54px; display: flex; align-items: center; justify-content: center; margin: 18px 0 24px; padding: 0 12px; }
+    .random-result { font-size: 1.15rem; font-weight: 600; color: #fde68a; min-height: 64px; display: flex; align-items: center; justify-content: center; margin: 18px 0 24px; padding: 0 12px; }
     .mem-num { font-size: 0.85rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 6px; }
-    .modal { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.8); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    .modal { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.82); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
     .modal.open { display: flex; }
-    .modal-content { background: #0f172a; border: 1px solid var(--accent-gold); border-radius: 24px; padding: 32px; max-width: 440px; width: 100%; text-align: center; }
+    .modal-content { background: #0f172a; border: 1px solid var(--accent-gold); border-radius: 24px; padding: 32px; max-width: 460px; width: 100%; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.6); }
+    .modal-content h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #fde68a; margin-bottom: 12px; }
+    .modal-content p { color: #e2e8f0; margin-bottom: 22px; }
     footer { text-align: center; padding: 50px 20px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <canvas id="fx"></canvas>
+  <audio id="customAudio" loop src="nhac.mp3"></audio>
+
   <div class="container">
     <header class="topbar">
       <div class="pill">✦ CLASS BROTHERHOOD</div>
       <div class="pill">19 · 11 · 2026</div>
     </header>
+
     <main class="hero">
       <div class="subtitle-badge">• A LITTLE CELEBRATION, A LOT OF RESPECT •</div>
       <h1>Happy International<br>Men's Day</h1>
@@ -76,23 +68,52 @@
       <div class="btn-group">
         <button class="btn-gold" onclick="openGift()">🎁 Mở món quà bí mật</button>
         <button class="btn-glass" onclick="burstFX(90)">✨ Gọi mưa sao</button>
-        <button class="btn-glass" id="musicBtn" onclick="toggleMusic()">♫ Bật giai điệu</button>
+        <select id="songSelect" class="music-select" onchange="changeTrack()">
+          <option value="0">🎹 Giai điệu 1: Chill Piano</option>
+          <option value="1">🎸 Giai điệu 2: Warm Lo-fi</option>
+          <option value="2">✨ Giai điệu 3: Starlight</option>
+          <option value="mp3">🎶 File nhac.mp3 riêng</option>
+        </select>
+        <button class="btn-glass" id="musicBtn" onclick="toggleMusic()">♫ Bật nhạc</button>
       </div>
       <a href="#letter" class="scroll-hint">Kéo xuống để mở những lời chúc ↓</a>
     </main>
+
     <section id="letter">
       <div class="sec-tag">A note from our class</div>
       <h2>💌 Gửi những chàng trai tuyệt vời</h2>
       <p class="sec-sub">Một tấm thiệp nhỏ, thay cho thật nhiều lời cảm ơn muốn nói.</p>
       <div class="letter-card">
         <p>Nhân ngày <strong>Quốc tế Nam giới 19/11</strong>, chúc tất cả các bạn nam của lớp mình luôn mạnh khỏe, giữ vững phong độ, học tập thật tốt và luôn tràn đầy năng lượng tích cực.</p>
-        <p>Cảm ơn các bạn vì đã luôn nhiệt tình, ga-lăng, hài hước và là điểm tựa vững chắc trong mọi hoạt động của tập thể lớp.</p>
+        <p>Cảm ơn các bạn vì đã luôn nhiệt tình, ga-lăng, hài hước và hết mình trong mọi hoạt động của lớp — từ những giờ học căng thẳng, những buổi chạy deadline cho đến các phong trào văn nghệ, thể thao.</p>
+        <p><strong>Chúc anh em lớp mình một ngày 19/11 thật rực rỡ, thi đâu thắng đó, luôn tự tin theo đuổi ước mơ và giữ mãi nụ cười tươi trên môi! 💙✨</strong></p>
         <div class="sign">Thân gửi từ hội chị em & tập thể lớp ✨</div>
       </div>
     </section>
-  </div>
-  <script>
-    // Các logic JavaScript xử lý hiệu ứng, lời chúc ngẫu nhiên và âm thanh được tích hợp tại đây.
-  </script>
-</body>
-</html>
+
+    <section id="wishes">
+      <div class="sec-tag">Six little wishes</div>
+      <h2>Mỗi bạn là một mảnh ghép đỉnh cao ✨</h2>
+      <p class="sec-sub">Chúc những điều tốt đẹp nhất luôn tìm đến từng bạn nam trong lớp.</p>
+      <div class="grid-3">
+        <div class="wish-card"><h3>⚡ Bản lĩnh</h3><p>Luôn vững vàng trước mọi thử thách, dám nghĩ dám làm và không ngại khó khăn.</p></div>
+        <div class="wish-card"><h3>🎯 Thành công</h3><p>Học hành tấn tới, điểm số cao chót vót, mọi mục tiêu đề ra đều cán đích ngoạn mục.</p></div>
+        <div class="wish-card"><h3>😄 Hài hước</h3><p>Luôn giữ nguồn năng lượng tích cực, mang lại tiếng cười sảng khoái cho cả lớp mỗi ngày.</p></div>
+        <div class="wish-card"><h3>💪 Sức khỏe</h3><p>Tràn đầy thể lực, chơi thể thao hết mình, thức khuya ôn bài vẫn luôn tỉnh táo.</p></div>
+        <div class="wish-card"><h3>🤝 Ga-lăng</h3><p>Luôn tinh tế, nhiệt tình hỗ trợ bạn bè và là chỗ dựa đáng tin cậy của tập thể lớp.</p></div>
+        <div class="wish-card"><h3>🌟 May mắn</h3><p>Gặp nhiều cơ hội tốt, ví luôn rủng rỉnh và ngày bình thường cũng có niềm vui bất ngờ.</p></div>
+      </div>
+    </section>
+
+    <section id="random">
+      <div class="sec-tag">A little reminder</div>
+      <h2>Thông điệp 19/11 dành riêng cho bạn 🎲</h2>
+      <p class="sec-sub">Bấm nút bên dưới để bốc thăm một lời chúc ngẫu nhiên dành cho bạn!</p>
+      <div class="random-box">
+        <div class="random-result" id="wishDisplay">✨ Bấm nút bên dưới để mở khóa lời chúc 19/11 của bạn ✨</div>
+        <button class="btn-gold" onclick="pickWish()">💌 Nhận lời chúc của mình</button>
+      </div>
+    </section>
+
+    <section id="memories">
+      <div class="sec-tag">Made of brotherhood</div>
