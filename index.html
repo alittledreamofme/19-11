@@ -125,10 +125,9 @@
       const v = document.getElementById("song").value, b = document.getElementById("mBtn"), a = document.getElementById("mp3");
       if (on) return stop();
       if (v === "mp3") { a.play().then(() => { on = true; b.textContent = "❚❚ Tắt nhạc"; }).catch(() => alert("Chưa có file nhac.mp3!")); }
-      else { const s = tracks[v]; idx = 0; beep(s[0]); tmr = setInterval(() => { idx = (idx+1)%s.length; beep(s[idx]); }, 450); on = true; b.textContent = "❚❚ Tắt nhạc"; }
+      else { const s = tracks[v]; idx = 0; beep(s); tmr = setInterval(() => { idx = (idx+1)%s.length; beep(s[idx]); }, 450); on = true; b.textContent = "❚❚ Tắt nhạc"; }
     }
     function changeSong() { if (on) { stop(); toggleMusic(); } }
   </script>
 </body>
 </html>
-
