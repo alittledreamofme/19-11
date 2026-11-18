@@ -1,93 +1,134 @@
-<script>
-const wishes = [
-  "Chúc bạn 19/11 luôn đẹp trai, học giỏi, thi môn nào qua môn đó với điểm số rực rỡ! 🏆",
-  "Chúc chàng trai của lớp luôn tràn đầy năng lượng, tự tin chinh phục mọi ước mơ! 🚀",
-  "19/11 vui vẻ nhé! Cảm ơn vì luôn nhiệt tình, ga-lăng và là mảnh ghép không thể thiếu của lớp. 💙",
-  "Chúc bạn luôn giữ vững phong độ, ví tiền rủng rỉnh và niềm vui ngập tràn mỗi ngày! ✨",
-  "Chúc bạn sức khỏe dồi dào, đá bóng hay, học bài giỏi và lúc nào cũng cười thật tươi! ⚽",
-  "Nhân ngày Quốc tế Nam giới, chúc bạn luôn bản lĩnh, kiên trì và gặp thật nhiều may mắn! 🍀",
-  "Chúc 'nam thần' lớp mình có một ngày 19/11 thật đáng nhớ, mọi dự định đều thành công! 🌟",
-  "Chúc bạn chạy deadline không bao giờ trễ, kiểm tra trúng tủ và luôn giữ tinh thần lạc quan! 📚"
-];
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Men's Day 19/11 ✨</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: radial-gradient(circle at top, #172554, #070d1f); color: #f8fafc; line-height: 1.6; overflow-x: hidden; }
+    canvas { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 2; }
+    .top { display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-bottom: 40px; }
+    .pill { border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.05); }
+    .hero { text-align: center; padding: 40px 0 60px; }
+    h1 { font-size: clamp(2.2rem, 6vw, 4rem); background: linear-gradient(135deg, #fff, #38bdf8, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+    .sub { color: #cbd5e1; max-width: 600px; margin: 0 auto 28px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    button, select { cursor: pointer; border: none; border-radius: 999px; padding: 12px 20px; font-weight: 600; font-size: 0.92rem; }
+    .gold { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #1e1b18; }
+    .glass { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
+    select { background: #0f172a; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 22px; padding: 28px; margin-top: 32px; }
+    h2 { font-size: 1.5rem; margin-bottom: 12px; color: #7dd3fc; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 20px; }
+    .item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; }
+    .item h3 { color: #fde68a; margin-bottom: 6px; font-size: 1.05rem; }
+    .box { text-align: center; margin-top: 32px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); border-radius: 22px; padding: 30px 20px; }
+    #wishText { font-size: 1.12rem; font-weight: 600; color: #fde68a; min-height: 54px; display: flex; align-items: center; justify-content: center; margin: 14px 0 20px; }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    .modal.open { display: flex; }
+    .modal-box { background: #0f172a; border: 1px solid #fbbf24; border-radius: 22px; padding: 28px; max-width: 420px; text-align: center; }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <audio id="mp3" loop src="nhac.mp3"></audio>
+  <div class="wrap">
+    <div class="top"><span class="pill">✦ CLASS BROTHERHOOD</span><span class="pill">19 · 11 · 2026</span></div>
+    <div class="hero">
+      <h1>Happy International<br>Men's Day 🏆</h1>
+      <p class="sub">Gửi đến tất cả những chàng trai tuyệt vời của lớp mình — chúc các bạn luôn bản lĩnh, vui vẻ, học giỏi và tự tin tỏa sáng! 💙</p>
+      <div class="btns">
+        <button class="gold" onclick="openGift()">🎁 Mở quà bí mật</button>
+        <button class="glass" onclick="stars(100)">✨ Gọi mưa sao</button>
+        <select id="song" onchange="changeSong()">
+          <option value="0">🎹 Nhạc 1: Piano</option>
+          <option value="1">🎸 Nhạc 2: Lo-fi</option>
+          <option value="mp3">🎶 File nhac.mp3</option>
+        </select>
+        <button class="glass" id="mBtn" onclick="toggleMusic()">♫ Bật nhạc</button>
+      </div>
+    </div>
 
-function pickWish() {
-  document.getElementById("wishDisplay").textContent = wishes[Math.floor(Math.random() * wishes.length)];
-  burstFX(80);
-}
-function openGift() {
-  document.getElementById("giftModal").classList.add("open");
-  burstFX(120);
-}
-function closeGift(e, force) {
-  if (force || e.target.id === "giftModal") document.getElementById("giftModal").classList.remove("open");
-}
+    <div class="card">
+      <h2>💌 Gửi những chàng trai của lớp</h2>
+      <p>Nhân ngày <strong>Quốc tế Nam giới 19/11</strong>, chúc anh em lớp mình luôn mạnh khỏe, giữ vững phong độ, thi đâu thắng đó và luôn tràn đầy năng lượng tích cực. Cảm ơn các bạn vì đã luôn nhiệt tình, ga-lăng và mang lại thật nhiều tiếng cười cho cả lớp! ✨</p>
+      <div class="grid">
+        <div class="item"><h3>⚡ Bản lĩnh</h3><p>Vững vàng trước mọi thử thách, dám nghĩ dám làm.</p></div>
+        <div class="item"><h3>🎯 Thành công</h3><p>Học hành tấn tới, điểm số cao chót vót.</p></div>
+        <div class="item"><h3>😄 Hài hước</h3><p>Luôn mang lại tiếng cười sảng khoái cho tập thể.</p></div>
+        <div class="item"><h3>🤝 Ga-lăng</h3><p>Luôn tinh tế, nhiệt tình hỗ trợ bạn bè hết mình.</p></div>
+      </div>
+    </div>
 
-const canvas = document.getElementById("fx"), ctx = canvas.getContext("2d");
-let particles = [];
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.addEventListener("resize", resize); resize();
+    <div class="box">
+      <h2>🎲 Bốc thăm lời chúc 19/11</h2>
+      <div id="wishText">✨ Bấm nút bên dưới để nhận lời chúc riêng dành cho bạn ✨</div>
+      <button class="gold" onclick="nextWish()">💌 Nhận lời chúc của mình</button>
+    </div>
+  </div>
 
-function burstFX(n = 90) {
-  const colors = ["#38bdf8", "#fbbf24", "#fde68a", "#60a5fa", "#f472b6", "#34d399"];
-  for (let i = 0; i < n; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: -10 - Math.random() * 120,
-      r: 5 + Math.random() * 6,
-      c: colors[Math.floor(Math.random() * colors.length)],
-      vx: (Math.random() - 0.5) * 4,
-      vy: 2.5 + Math.random() * 4.5,
-      rot: Math.random() * 6.28
-    });
-  }
-}
-function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles = particles.filter(p => p.y < canvas.height + 30);
-  for (const p of particles) {
-    p.x += p.vx; p.y += p.vy; p.rot += 0.08;
-    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-    ctx.fillStyle = p.c; ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r * 0.7);
-    ctx.restore();
-  }
-  requestAnimationFrame(loop);
-}
-loop(); setTimeout(() => burstFX(80), 300);
+  <div class="modal" id="modal" onclick="closeGift(event)">
+    <div class="modal-box">
+      <h2 style="color:#fde68a;">🎁 Quà Bí Mật 19/11</h2>
+      <p style="margin:14px 0 20px;">Chúc các chàng trai lớp mình một ngày 19/11 thật rực rỡ, bách chiến bách thắng mọi kỳ thi và luôn giữ mãi phong độ đỉnh cao! 🏆💙</p>
+      <button class="gold" onclick="closeGift(event, true)">Nhận lời chúc</button>
+    </div>
+  </div>
 
-let audioCtx, timer, playing = false, step = 0;
-const songs = [
-  [261.63, 329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63],
-  [220.00, 261.63, 329.63, 392.00, 349.23, 329.63, 293.66, 261.63],
-  [293.66, 369.99, 440.00, 587.33, 554.37, 440.00, 369.99, 329.63]
-];
-function tone(f) {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === "suspended") audioCtx.resume();
-  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-  o.type = "triangle"; o.frequency.value = f;
-  g.gain.setValueAtTime(0.14, audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime + 0.5);
-}
-function stopAll() {
-  clearInterval(timer); timer = null;
-  document.getElementById("customAudio").pause();
-  playing = false; document.getElementById("musicBtn").textContent = "♫ Bật nhạc";
-}
-function toggleMusic() {
-  const v = document.getElementById("songSelect").value, btn = document.getElementById("musicBtn"), mp3 = document.getElementById("customAudio");
-  if (playing) return stopAll();
-  if (v === "mp3") {
-    mp3.play().then(() => { playing = true; btn.textContent = "❚❚ Tắt nhạc"; })
-      .catch(() => alert("Chưa có file nhac.mp3 trong kho GitHub. Hãy chọn Giai điệu 1, 2 hoặc 3 nhé!"));
-  } else {
-    const arr = songs[Number(v)]; step = 0; tone(arr[0]);
-    timer = setInterval(() => { step = (step + 1) % arr.length; tone(arr[step]); }, 480);
-    playing = true; btn.textContent = "❚❚ Tắt nhạc";
-  }
-}
-function changeTrack() { if (playing) { stopAll(); toggleMusic(); } }
-</script>
+  <script>
+    const list = [
+      "Chúc bạn 19/11 luôn đẹp trai, học giỏi, thi môn nào qua môn đó với điểm cao chót vót! 🏆",
+      "Chúc chàng trai của lớp luôn tràn đầy năng lượng, tự tin chinh phục mọi ước mơ! 🚀",
+      "19/11 vui vẻ nhé! Cảm ơn vì luôn nhiệt tình, ga-lăng và là mảnh ghép tuyệt vời của lớp. 💙",
+      "Chúc bạn luôn giữ vững phong độ, ví tiền rủng rỉnh và niềm vui ngập tràn mỗi ngày! ✨",
+      "Chúc bạn sức khỏe dồi dào, thể thao hết mình, học bài siêu đỉnh và luôn cười tươi! ⚽",
+      "Chúc bạn chạy deadline không bao giờ trễ, kiểm tra trúng tủ và gặp thật nhiều may mắn! 🍀"
+    ];
+    function nextWish() {
+      document.getElementById("wishText").textContent = list[Math.floor(Math.random() * list.length)];
+      stars(80);
+    }
+    function openGift() { document.getElementById("modal").classList.add("open"); stars(120); }
+    function closeGift(e, ok) { if (ok || e.target.id === "modal") document.getElementById("modal").classList.remove("open"); }
+
+    const c = document.getElementById("fx"), ctx = c.getContext("2d");
+    let pts = [];
+    function fit() { c.width = innerWidth; c.height = innerHeight; }
+    addEventListener("resize", fit); fit();
+    function stars(n) {
+      const cols = ["#38bdf8", "#fbbf24", "#fde68a", "#f472b6", "#34d399"];
+      for (let i = 0; i < n; i++) pts.push({ x: Math.random()*c.width, y: -20-Math.random()*100, s: 6+Math.random()*6, col: cols[i%cols.length], vx: (Math.random()-0.5)*3, vy: 2.5+Math.random()*4 });
+    }
+    (function draw() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      pts = pts.filter(p => p.y < c.height + 20);
+      for (const p of pts) { p.x += p.vx; p.y += p.vy; ctx.fillStyle = p.col; ctx.fillRect(p.x, p.y, p.s, p.s*0.7); }
+      requestAnimationFrame(draw);
+    })();
+    setTimeout(() => stars(80), 300);
+
+    let actx, tmr, on = false, idx = 0;
+    const tracks = [[261.6, 329.6, 392.0, 493.9, 523.3, 493.9, 392.0, 329.6], [220.0, 261.6, 329.6, 392.0, 349.2, 329.6, 293.7, 261.6]];
+    function beep(f) {
+      if (!actx) actx = new (AudioContext || webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = "triangle"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.15, actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.45);
+      o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime + 0.45);
+    }
+    function stop() { clearInterval(tmr); document.getElementById("mp3").pause(); on = false; document.getElementById("mBtn").textContent = "♫ Bật nhạc"; }
+    function toggleMusic() {
+      const v = document.getElementById("song").value, b = document.getElementById("mBtn"), a = document.getElementById("mp3");
+      if (on) return stop();
+      if (v === "mp3") { a.play().then(() => { on = true; b.textContent = "❚❚ Tắt nhạc"; }).catch(() => alert("Chưa có file nhac.mp3!")); }
+      else { const s = tracks[v]; idx = 0; beep(s[0]); tmr = setInterval(() => { idx = (idx+1)%s.length; beep(s[idx]); }, 450); on = true; b.textContent = "❚❚ Tắt nhạc"; }
+    }
+    function changeSong() { if (on) { stop(); toggleMusic(); } }
+  </script>
 </body>
 </html>
+
